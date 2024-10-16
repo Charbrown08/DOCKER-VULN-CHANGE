@@ -1,12 +1,15 @@
 version: '3'
 services:
   webserver:
-    image: httpd:latest
+    build: .
     container_name: webserver
     ports:
-      - '8080:80'
+      - '8080:80' # Puerto HTTP
+      - '8443:443' # Puerto HTTPS
     volumes:
       - ./web:/usr/local/apache2/htdocs/
+      - ./server.crt:/usr/local/apache2/conf/server.crt
+      - ./server.key:/usr/local/apache2/conf/server.key
 
   ftpserver:
     image: stilliard/pure-ftpd
