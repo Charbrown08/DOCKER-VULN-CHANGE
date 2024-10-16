@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Vuln Challenge - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .login-container .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .login-container .input-group i {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #888;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            box-sizing: border-box;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #005bb5;
+        }
+
+        .login-container .links {
+            margin-top: 20px;
+        }
+
+        .login-container .links a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-container .links a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Docker Vuln Challenge</h2>
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" placeholder="Usuario" required>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Contraseña" required>
+        </div>
+        <button onclick="validateLogin()">Login</button>
+        <div class="error-message" id="error-message">Por favor, ingresa usuario y contraseña.</div>
+        <div class="links">
+            <a href="#" onclick="goToHomePage()">Volver a la página de inicio</a>
+        </div>
+        <p style="margin-top: 20px; color: #7f8c8d;">By: Carlos Andres Moreno - Camila Andrea Vargas</p>
+    </div>
+
+    <script>
+        function validateLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (username === "" || password === "") {
+                errorMessage.style.display = "block";
+            } else {
+                errorMessage.style.display = "none";
+                alert("¡Credenciales enviadas con éxito!");
+                // Aquí podrías añadir más lógica para manejar el inicio de sesión
+            }
+        }
+
+        function goToHomePage() {
+            window.location.href = 'index.html'; // Asegúrate de que el archivo index.html esté en la misma ubicación.
+        }
+    </script>
+</body>
+
+</html>

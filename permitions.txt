@@ -1,0 +1,9 @@
+#Init bash server FTP
+docker exec -it ftpserver bash
+
+#Applicat this permitions in server FTP in specify file 
+chown -R ftpuser:ftpgroup /home/test
+chmod -R 775 /home/test
+
+# EXIT  bash
+exi
