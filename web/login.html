@@ -100,36 +100,37 @@
 <body>
     <div class="login-container">
         <h2>Docker Vuln Challenge</h2>
-        <div class="input-group">
-            <i class="fas fa-user"></i>
-            <input type="text" id="username" placeholder="Usuario" required>
-        </div>
-        <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Contraseña" required>
-        </div>
-        <button onclick="validateLogin()">Login</button>
-        <div class="error-message" id="error-message">Por favor, ingresa usuario y contraseña.</div>
-        <div class="links">
-            <a href="#" onclick="goToHomePage()">Volver a la página de inicio</a>
-        </div>
-        <p style="margin-top: 20px; color: #7f8c8d;">By: Carlos Andres Moreno - Camila Andrea Vargas</p>
+        <form id="login-form" action="http://localhost:8080/login" method="POST">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" name="username" placeholder="Usuario" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            </div>
+            <button type="submit">Login</button>
+            <div class="error-message" id="error-message">Por favor, ingresa usuario y contraseña.</div>
+            <div class="links">
+                <a href="#" onclick="goToHomePage()">Volver a la página de inicio</a>
+            </div>
+            <p style="margin-top: 20px; color: #7f8c8d;">By: Carlos Andres Moreno - Camila Andrea Vargas</p>
+        </form>
     </div>
 
     <script>
-        function validateLogin() {
+        document.getElementById('login-form').onsubmit = function (event) {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
 
             if (username === "" || password === "") {
+                event.preventDefault(); // Previene el envío del formulario
                 errorMessage.style.display = "block";
             } else {
                 errorMessage.style.display = "none";
-                alert("¡Credenciales enviadas con éxito!");
-                // Aquí podrías añadir más lógica para manejar el inicio de sesión
             }
-        }
+        };
 
         function goToHomePage() {
             window.location.href = 'index.html'; // Asegúrate de que el archivo index.html esté en la misma ubicación.
