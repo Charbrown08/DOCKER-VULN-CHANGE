@@ -10,6 +10,8 @@ services:
       - ./web:/usr/local/apache2/htdocs/
       - ./server.crt:/usr/local/apache2/conf/server.crt
       - ./server.key:/usr/local/apache2/conf/server.key
+    networks:
+      - vpn_net
 
   ftpserver:
     image: stilliard/pure-ftpd
@@ -25,10 +27,28 @@ services:
       ADDED_FLAGS: '--tls=2' # TLS obligatorio
     volumes:
       - ./ftp:/home/test
-      - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem # Montar el archivo PEM para FTPS
+      - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem
+    networks:
+      - vpn_net
+
+  openvpn:
+    image: kylemanna/openvpn
+    container_name: openvpn
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - '1194:1194/udp' # Puerto VPN
+    volumes:
+      - ./openvpn-data/conf:/etc/openvpn
+    environment:
+      - OVPN_DEFROUTE=0
+      - OVPN_NAT=0
+    command: 'ovpn_run'
+    networks:
+      - vpn_net
 
 networks:
-  default:
+  vpn_net:
     driver: bridge
 # version: '3'
 # services:
@@ -47,15 +67,17 @@ networks:
 #     image: stilliard/pure-ftpd
 #     container_name: ftpserver
 #     ports:
-#       - '21:21'
-#       - '30000-30009:30000-30009'
+#       - '21:21' # Puerto FTP
+#       - '30000-30009:30000-30009' # Puertos pasivos FTPS
 #     environment:
 #       FTP_USER_NAME: 'test'
 #       FTP_USER_PASS: 'test123'
 #       FTP_USER_HOME: '/home/test'
 #       FTP_PASSIVE_PORTS: '30000:30009'
+#       ADDED_FLAGS: '--tls=2' # TLS obligatorio
 #     volumes:
 #       - ./ftp:/home/test
+#       - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem # Montar el archivo PEM para FTPS
 
 # networks:
 #   default:
