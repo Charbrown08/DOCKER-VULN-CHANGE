@@ -1,0 +1,12 @@
+
+#Ejecuta Nmap nuevamente con la opción -Pn para forzar el escaneo de puertos sin hacer ping:
+#WEB
+nmap -Pn -p 80,443 172.23.0.2
+
+#FTP
+nmap -Pn -p 21,30000-30009 172.23.0.3
+
+
+#VERSIONES 
+nmap -Pn -sV 172.23.0.2
+nmap -Pn -sV 172.23.0.3
