@@ -100,7 +100,8 @@
 <body>
     <div class="login-container">
         <h2>Docker Vuln Challenge</h2>
-        <form id="login-form" action="http://localhost:8080/login" method="POST">
+        <!-- Formulario sin acción predeterminada -->
+        <form id="login-form" method="POST">
             <div class="input-group">
                 <i class="fas fa-user"></i>
                 <input type="text" id="username" name="username" placeholder="Usuario" required>
@@ -119,22 +120,37 @@
     </div>
 
     <script>
-        document.getElementById('login-form').onsubmit = function (event) {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
+        // Ajusta la acción del formulario según el puerto actual
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginForm = document.getElementById('login-form');
+            const currentPort = window.location.port;
 
-            if (username === "" || password === "") {
-                event.preventDefault(); // Previene el envío del formulario
-                errorMessage.style.display = "block";
-            } else {
-                errorMessage.style.display = "none";
+            // Cambia la acción del formulario según el puerto
+            if (currentPort === '8080') {
+                loginForm.action = 'http://localhost:8080/login';
+            } else if (currentPort === '8443') {
+                loginForm.action = 'https://localhost:8443/login';
             }
-        };
 
-        function goToHomePage() {
-            window.location.href = 'index.html'; // Asegúrate de que el archivo index.html esté en la misma ubicación.
-        }
+            // Validación del formulario
+            loginForm.onsubmit = function (event) {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const errorMessage = document.getElementById('error-message');
+
+                if (username === "" || password === "") {
+                    event.preventDefault(); // Previene el envío del formulario
+                    errorMessage.style.display = "block";
+                } else {
+                    errorMessage.style.display = "none";
+                }
+            };
+
+            // Función para volver a la página de inicio
+            window.goToHomePage = function () {
+                window.location.href = 'index.html'; // Asegúrate de que el archivo index.html esté en la misma ubicación.
+            };
+        });
     </script>
 </body>
 
