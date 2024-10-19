@@ -29,6 +29,17 @@ services:
       - ./ftp:/home/test
       - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem
 
+  openvpn:
+    image: kylemanna/openvpn
+    container_name: openvpn
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - '1194:1194/udp' # Puerto OpenVPN
+    volumes:
+      - ./openvpn-data:/etc/openvpn
+    restart: unless-stopped
+
 networks:
   default:
     driver: bridge
