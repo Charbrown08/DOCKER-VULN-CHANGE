@@ -1,0 +1,16 @@
+
+// comannda by ip address
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' webserver
+
+// reconstruir la imagen del  dockerfile 
+
+docker-compose build webserver
+
+
+ // porbar el ping
+ docker exec -it webserver ping 172.23.0.3
+
+
+No podemos hacer ping desde nuestra máquina local (Windows) a los contenedores Docker porque Docker usa una red NAT en Windows. Esta red permite enrutar tráfico TCP/UDP (como HTTP, FTP), pero bloquea paquetes ICMP, que es el protocolo que usa el ping.
+
+En resumen, la red NAT de Docker en Windows no soporta ping, pero sí permite conexiones a servicios como HTTP o FTP mediante mapeo de puertos. Para probar la conectividad, usa otros protocolos o realiza ping entre los contenedores directamente usando docker exec.

@@ -1,5 +1,8 @@
 FROM httpd:2.4
 
+# Instala iputils-ping para habilitar el comando ping
+RUN apt-get update && apt-get install -y iputils-ping
+
 # Copia tus certificados SSL al contenedor
 COPY ./server.crt /usr/local/apache2/conf/server.crt
 COPY ./server.key /usr/local/apache2/conf/server.key
