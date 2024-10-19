@@ -1,8 +1,14 @@
 FROM httpd:2.4
 
+
+
 # Copia tus certificados SSL al contenedor
 COPY ./server.crt /usr/local/apache2/conf/server.crt
 COPY ./server.key /usr/local/apache2/conf/server.key
+
+# Instala iputils-ping para habilitar el comando ping
+RUN apt-get update && apt-get install -y iputils-ping
+
 
 # Habilita el módulo SSL directamente en httpd.conf
 RUN echo 'LoadModule ssl_module modules/mod_ssl.so' >> /usr/local/apache2/conf/httpd.conf && \
