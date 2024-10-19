@@ -10,6 +10,9 @@ services:
       - ./web:/usr/local/apache2/htdocs/
       - ./server.crt:/usr/local/apache2/conf/server.crt
       - ./server.key:/usr/local/apache2/conf/server.key
+    networks:
+      custom_net:
+        ipv4_address: 192.168.254.21
 
   ftpserver:
     build:
@@ -28,6 +31,9 @@ services:
     volumes:
       - ./ftp:/home/test
       - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem
+    networks:
+      custom_net:
+        ipv4_address: 192.168.254.22
 
   openvpn:
     image: kylemanna/openvpn
@@ -39,7 +45,58 @@ services:
     volumes:
       - ./openvpn-data:/etc/openvpn
     restart: unless-stopped
+    networks:
+      custom_net:
+        ipv4_address: 192.168.254.1
 
 networks:
-  default:
+  custom_net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.254.0/24
+# version: '3'
+# services:
+#   webserver:
+#     build: .
+#     container_name: webserver
+#     ports:
+#       - '8080:80' # Puerto HTTP
+#       - '8443:443' # Puerto HTTPS
+#     volumes:
+#       - ./web:/usr/local/apache2/htdocs/
+#       - ./server.crt:/usr/local/apache2/conf/server.crt
+#       - ./server.key:/usr/local/apache2/conf/server.key
+
+#   ftpserver:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.ftp
+#     container_name: ftpserver
+#     ports:
+#       - '21:21' # Puerto FTP
+#       - '30000-30009:30000-30009' # Puertos pasivos FTPS
+#     environment:
+#       FTP_USER_NAME: 'test'
+#       FTP_USER_PASS: 'test123'
+#       FTP_USER_HOME: '/home/test'
+#       FTP_PASSIVE_PORTS: '30000:30009'
+#       ADDED_FLAGS: '--tls=2'
+#     volumes:
+#       - ./ftp:/home/test
+#       - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem
+
+#   openvpn:
+#     image: kylemanna/openvpn
+#     container_name: openvpn
+#     cap_add:
+#       - NET_ADMIN
+#     ports:
+#       - '1194:1194/udp' # Puerto OpenVPN
+#     volumes:
+#       - ./openvpn-data:/etc/openvpn
+#     restart: unless-stopped
+
+# networks:
+#   default:
+#     driver: bridge
