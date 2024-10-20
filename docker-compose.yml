@@ -29,6 +29,27 @@ services:
       - ./ftp:/home/test
       - ./pure-ftpd.pem:/etc/ssl/private/pure-ftpd.pem # Montar el archivo PEM para FTPS
 
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    privileged: true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SERVERURL=localhost
+      - SERVERPORT=51820
+      - PEERS=1
+      - PEERDNS=auto
+    ports:
+      - '51820:51820/udp'
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
+
 networks:
   default:
     driver: bridge

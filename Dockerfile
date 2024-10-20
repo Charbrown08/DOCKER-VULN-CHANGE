@@ -1,18 +1,19 @@
 FROM httpd:2.4
 
-
-
-# Copia tus certificados SSL al contenedor
+# Copia los certificados SSL al contenedor
 COPY ./server.crt /usr/local/apache2/conf/server.crt
 COPY ./server.key /usr/local/apache2/conf/server.key
 
 # Instala iputils-ping para habilitar el comando ping
 RUN apt-get update && apt-get install -y iputils-ping
 
-
-# Habilita el módulo SSL directamente en httpd.conf
+# Habilita los módulos SSL y configura los puertos 8080 y 443
 RUN echo 'LoadModule ssl_module modules/mod_ssl.so' >> /usr/local/apache2/conf/httpd.conf && \
+    echo 'Listen 8080' >> /usr/local/apache2/conf/httpd.conf && \
     echo 'Listen 443' >> /usr/local/apache2/conf/httpd.conf && \
+    echo '<VirtualHost *:8080>' >> /usr/local/apache2/conf/httpd.conf && \
+    echo '    DocumentRoot /usr/local/apache2/htdocs/' >> /usr/local/apache2/conf/httpd.conf && \
+    echo '</VirtualHost>' >> /usr/local/apache2/conf/httpd.conf && \
     echo '<VirtualHost *:443>' >> /usr/local/apache2/conf/httpd.conf && \
     echo '    ServerName localhost' >> /usr/local/apache2/conf/httpd.conf && \
     echo '    SSLEngine on' >> /usr/local/apache2/conf/httpd.conf && \
