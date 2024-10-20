@@ -30,33 +30,3 @@ services:
 networks:
   default:
     driver: bridge
-# version: '3'
-# services:
-#   webserver:
-#     build: .
-#     container_name: webserver
-#     ports:
-#       - '8080:80' # Puerto HTTP
-#       - '8443:443' # Puerto HTTPS
-#     volumes:
-#       - ./web:/usr/local/apache2/htdocs/
-#       - ./server.crt:/usr/local/apache2/conf/server.crt
-#       - ./server.key:/usr/local/apache2/conf/server.key
-
-#   ftpserver:
-#     image: stilliard/pure-ftpd
-#     container_name: ftpserver
-#     ports:
-#       - '21:21'
-#       - '30000-30009:30000-30009'
-#     environment:
-#       FTP_USER_NAME: 'test'
-#       FTP_USER_PASS: 'test123'
-#       FTP_USER_HOME: '/home/test'
-#       FTP_PASSIVE_PORTS: '30000:30009'
-#     volumes:
-#       - ./ftp:/home/test
-
-# networks:
-#   default:
-#     driver: bridge
